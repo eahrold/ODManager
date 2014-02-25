@@ -1,0 +1,28 @@
+/**
+  ODMangerStrings.strings
+
+  Created by Eldon on 12/19/13.
+  Copyright (c) 2013 Eldon Ahrold. All rights reserved.
+**/
+
+"errNoNode" = "Could not connect to the specified Directory Server";
+
+"errNoUserRecord" = "Could not find the specified user record";
+"errNoGroupRecord" = "Could not find the specified group record";
+"errNoPresetRecord" = "Could not find the specified preset record";
+"errNoMatchingRecord" = "Could not find a record matching that name";
+
+"errWrongPassword" = "The password supplied is not correct";
+"errNoPasswordSupplied" = "A password was not supplied";
+"errInvalidCredentials" = "The authentication credentials you provided were not correct";
+"errSessionError" = "There was a problem creating the Directory Server session";
+"errNoDirectoryNode" = "No directory server has been specified.";
+
+"errCouldNotAddUser" = "There was a problem adding the user";
+"errCouldNotRemoveUser" = "There was a problem removing the user";
+"errCouldNotAddGroup" = "There was a problem adding the group";
+"errCouldNotRemoveGroup" = "There was a problem removing the group";
+"errCouldNotAddUserToGroup" = "There was a problem adding the user to the group";
+"errUserObjectIncomplete" = "There wasn't enough information provided to create the user";
+"errGroupObjectIncomplete" = "There wasn't enough information provided to create the group";
+"errDefault" = "There was an unknown problem";
