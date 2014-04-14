@@ -192,7 +192,7 @@ extern NSString* kODMPresetRecord;
 /**
  *  Asynchronously add a list of users
  *
- *  @param users ODUserList with the user property populated with an array of ODUser objects
+ *  @param users ODRecordList with the user property populated with an array of ODUser objects
  *  @param reply A block object to be executed when the request operation finishes. This block has no return value and takes one argument: NSError. */
 -(void)addListOfUsers:(ODRecordList*)list
                 reply:(void(^)(NSError *error))reply;
@@ -200,7 +200,7 @@ extern NSString* kODMPresetRecord;
 /**
  *  Asynchronously add list of users asyn with status updates provided via a block object
  *
- *  @param users ODUserList with the user property populated with an array of ODUser objects
+ *  @param users ODRecordList with the user property populated with an array of ODUser objects
  *  @param progress block object to be excuted when a user is added.  This block has no return value and takes two arguments, NSString and double
  *  @param reply A block object to be executed when the request operation finishes. This block has no return value and takes one argument: NSError.
  *  @discussion Use this when not implamenting a delegate.
@@ -224,7 +224,7 @@ extern NSString* kODMPresetRecord;
 /**
  *  Asynchronously add list of users asyn with status updates provided via a block object
  *
- *  @param users ODUserList with the user property populated with an array of ODUser objects
+ *  @param users ODRecordList with the user property populated with an array of ODUser objects
  *  @param preset name of preset
  *  @param reply A block object to be executed when the request operation finishes. This block has no return value and takes one argument: NSError.
  *  @discussion use this when implementing a delegate
@@ -236,7 +236,7 @@ extern NSString* kODMPresetRecord;
 /**
  *  Asynchronously add list of users asyn with status updates provided via a block object
  *
- *  @param users ODUserList with the user property populated with an array of ODUser objects
+ *  @param users ODRecordList with the user property populated with an array of ODUser objects
  *  @param preset name of preset
  *  @param progress block object to be excuted when a user is added.  This block has no return value and takes two arguments, NSString and double
  *  @param reply A block object to be executed when the request operation finishes. This block has no return value and takes one argument: NSError.

@@ -52,7 +52,7 @@ NSString* kODMPresetRecord;
     static dispatch_once_t onceToken;
     static ODManager *shared;
     dispatch_once(&onceToken, ^{
-        shared = [[ODManager alloc]initWithDefaultDomain];
+        shared = [[ODManager alloc] init];
     });
     return shared;
 }
@@ -62,8 +62,8 @@ NSString* kODMPresetRecord;
 -(id)init{
     self = [super init];
     if(self){
-        [self addObserver:self forKeyPath:@"directoryDomain" options:NSKeyValueObservingOptionNew context:NULL];
-        [self addObserver:self forKeyPath:@"directoryServer" options:NSKeyValueObservingOptionNew context:NULL];
+//        [self addObserver:self forKeyPath:@"directoryDomain" options:NSKeyValueObservingOptionNew context:NULL];
+//        [self addObserver:self forKeyPath:@"directoryServer" options:NSKeyValueObservingOptionNew context:NULL];
     }
     return self;
 }
@@ -395,7 +395,7 @@ NSString* kODMPresetRecord;
 }
 
 -(ODManagerNodeStatus)authenticate:(NSError*__autoreleasing*)error{
-    if(!_node || ![self getServerNode:error]){
+    if(!_node && ![self getServerNode:error]){
         return kODMNodeNotSet;
     }
     ODManagerNode *direcotyNode = [[ODManagerNode alloc]initWithDomain:_directoryDomain];
@@ -424,7 +424,26 @@ NSString* kODMPresetRecord;
     }
 }
 
-#pragma mark - other
+#pragma mark - Setters/Getters
+-(void)setDiradmin:(NSString *)diradmin{
+    _diradmin = diradmin;
+}
+
+-(void)setDiradminPassword:(NSString *)diradminPassword{
+    _diradminPassword = diradminPassword;
+}
+
+-(void)setDirectoryServer:(NSString *)directoryServer{
+    _directoryServer = directoryServer;
+    [self getServerNode:nil];
+}
+
+-(void)setDirectoryDomain:(ODMDirectoryDomains)directoryDomain{
+    _directoryDomain = directoryDomain;
+    [self getServerNode:nil];
+
+}
+
 -(NSString *)description{
     NSString* dd = domainDescription(_directoryDomain);
     return [NSString stringWithFormat:@"ODManager - Server:%@ Domain:%@",_directoryServer,dd];

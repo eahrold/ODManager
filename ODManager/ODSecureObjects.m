@@ -74,6 +74,9 @@
     [aEncoder encodeObject:_userPreset forKey:@"userPreset"];
 }
 
+-(NSString *)description{
+    return [NSString stringWithFormat:@"username: %@",_userName];
+}
 -(NSString*)homeDirectory{
     NSString* path;
     if(_homeDirectory){

@@ -102,8 +102,8 @@
         ODRecord *userRecord = [_node createRecordWithRecordType:kODRecordTypeUsers
                                                             name:user.userName
                                                       attributes:user.openDirectoryAttributes
-                                                           error:error];
-        if(*error){
+                                                           error:&err];
+        if(err){
             if(error)*error = err;
             [failures addObject:user.userName];
             faults++;
@@ -261,11 +261,10 @@
 
 -(BOOL)changePassword:(NSString *)password to:(NSString *)newPassword user:(NSString *)user error:(NSError *__autoreleasing *)error{
     ODRecord* userRecord = [ODManagerRecord getUserRecord:user node:_node error:error];
-    
-    
-    if(self.authenticated)password = nil;
-    
+
     if(userRecord){
+        if(self.authenticated)password = nil;
+        
         if([userRecord changePassword:password toPassword:newPassword error:error])
             return [userRecord synchronizeAndReturnError:nil];
     }
