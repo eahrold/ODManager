@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BE51E45418B2907F00B11F21"
                BuildableName = "libODManager.a"
-               BlueprintName = "ODManager"
+               BlueprintName = "ODManagerOSX"
                ReferencedContainer = "container:ODManager.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

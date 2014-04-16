@@ -19,6 +19,7 @@
 "errNoDirectoryNode" = "No directory server has been specified.";
 
 "errCouldNotAddUser" = "There was a problem adding the user";
+"errUserAlreadyExists" = "A record with that username already exists"
 "errCouldNotRemoveUser" = "There was a problem removing the user";
 "errCouldNotAddGroup" = "There was a problem adding the group";
 "errCouldNotRemoveGroup" = "There was a problem removing the group";

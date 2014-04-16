@@ -78,6 +78,14 @@
         return NO;
     }
     
+    if(list.users.count == 1){
+        ODRecord *check = [ODManagerRecord getUserRecord:[(ODUser*)list.users[0] userName] node:_node error:nil];
+        if(check){
+            [ODManagerError errorWithCode:kODMerrUserAlreadyExists error:error];
+            return NO;
+        }
+    }
+    
     progress = 0.0;
     for(ODUser* user in list.users){
         [[NSOperationQueue mainQueue]addOperationWithBlock:^{
@@ -162,6 +170,7 @@
 
 -(BOOL)removeListOfUsers:(NSArray *)users error:(NSError *__autoreleasing *)error{
     BOOL rc = NO;
+    
     _cancelRemoval = NO;
     for (NSString* user in users){
         if(_cancelRemoval){
@@ -170,7 +179,7 @@
         ODRecord* userRecord = [ODManagerRecord getUserRecord:user node:_node error:error];
         rc = [userRecord deleteRecordAndReturnError:error];
     }
-    
+
     return users.count > 1 ? YES:rc;
 }
 /* ***/

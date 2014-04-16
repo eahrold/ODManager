@@ -17,7 +17,7 @@
 		BE51E45918B2907F00B11F21 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E45818B2907F00B11F21 /* Cocoa.framework */; };
 		BE51E46A18B2907F00B11F21 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E46918B2907F00B11F21 /* XCTest.framework */; };
 		BE51E46B18B2907F00B11F21 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E45818B2907F00B11F21 /* Cocoa.framework */; };
-		BE51E46E18B2907F00B11F21 /* libODManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E45518B2907F00B11F21 /* libODManager.a */; };
+		BE51E46E18B2907F00B11F21 /* libODManagerOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E45518B2907F00B11F21 /* libODManagerOSX.a */; };
 		BE51E47418B2907F00B11F21 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE51E47218B2907F00B11F21 /* InfoPlist.strings */; };
 		BE51E47618B2907F00B11F21 /* ODManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E47518B2907F00B11F21 /* ODManagerTests.m */; };
 		BE51E48118B2909C00B11F21 /* ODSecureObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E47F18B2909C00B11F21 /* ODSecureObjects.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,8 +29,32 @@
 		BE51E4A418B2938000B11F21 /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E4A218B2938000B11F21 /* TBXML.h */; };
 		BE51E4A818B2965E00B11F21 /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E4A618B2963A00B11F21 /* OpenDirectory.framework */; };
 		BE51E4A918B2968F00B11F21 /* ODManagerStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE51E4A118B2938000B11F21 /* ODManagerStrings.strings */; };
-		BE51E4AA18B2A02C00B11F21 /* ODSecureObjects.m in Headers */ = {isa = PBXBuildFile; fileRef = BE51E48018B2909C00B11F21 /* ODSecureObjects.m */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE51E4AB18B2A05800B11F21 /* ODManagerStrings.strings in Headers */ = {isa = PBXBuildFile; fileRef = BE51E4A118B2938000B11F21 /* ODManagerStrings.strings */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEAC31F118FC0E04003AEA9C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E45818B2907F00B11F21 /* Cocoa.framework */; };
+		BEAC320118FC0E04003AEA9C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E46918B2907F00B11F21 /* XCTest.framework */; };
+		BEAC320218FC0E04003AEA9C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E45818B2907F00B11F21 /* Cocoa.framework */; };
+		BEAC320518FC0E04003AEA9C /* ODManger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEAC31F018FC0E04003AEA9C /* ODManger.framework */; };
+		BEAC320B18FC0E04003AEA9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEAC320918FC0E04003AEA9C /* InfoPlist.strings */; };
+		BEAC320D18FC0E04003AEA9C /* ODMangerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BEAC320C18FC0E04003AEA9C /* ODMangerTests.m */; };
+		BEAC322D18FD665C003AEA9C /* ODManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E48B18B2916100B11F21 /* ODManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEAC322E18FD6660003AEA9C /* ODSecureObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E47F18B2909C00B11F21 /* ODSecureObjects.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEAC322F18FD6665003AEA9C /* ODManagerStrings.strings in Headers */ = {isa = PBXBuildFile; fileRef = BE51E4A118B2938000B11F21 /* ODManagerStrings.strings */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEAC323018FD668C003AEA9C /* ODManagerRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E48D18B2916100B11F21 /* ODManagerRecord.h */; };
+		BEAC323118FD668E003AEA9C /* ODManagerEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E48F18B2916100B11F21 /* ODManagerEditor.h */; };
+		BEAC323218FD6692003AEA9C /* ODManagerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E49118B2916100B11F21 /* ODManagerNode.h */; };
+		BEAC323318FD6695003AEA9C /* ODManagerError.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E49C18B2921600B11F21 /* ODManagerError.h */; };
+		BEAC323418FD6698003AEA9C /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E4A218B2938000B11F21 /* TBXML.h */; };
+		BEAC323518FD66BC003AEA9C /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E4A618B2963A00B11F21 /* OpenDirectory.framework */; };
+		BEAC323618FD6794003AEA9C /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E4A618B2963A00B11F21 /* OpenDirectory.framework */; };
+		BEAD213218FD775600E5260E /* ODManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E48C18B2916100B11F21 /* ODManager.m */; };
+		BEAD213318FD775600E5260E /* ODManagerRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E48E18B2916100B11F21 /* ODManagerRecord.m */; };
+		BEAD213418FD775600E5260E /* ODManagerEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E49018B2916100B11F21 /* ODManagerEditor.m */; };
+		BEAD213518FD775600E5260E /* ODManagerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E49218B2916100B11F21 /* ODManagerNode.m */; };
+		BEAD213618FD775600E5260E /* ODSecureObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E48018B2909C00B11F21 /* ODSecureObjects.m */; };
+		BEAD213718FD775600E5260E /* ODManagerError.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E49D18B2921600B11F21 /* ODManagerError.m */; };
+		BEAD213818FD775600E5260E /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E4A318B2938000B11F21 /* TBXML.m */; };
+		BEAD213B18FD7BFA00E5260E /* ODManagerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = BEAD213A18FD7B9C00E5260E /* ODManagerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEAD213C18FD7C0300E5260E /* ODManagerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = BEAD213A18FD7B9C00E5260E /* ODManagerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,10 +65,17 @@
 			remoteGlobalIDString = BE51E45418B2907F00B11F21;
 			remoteInfo = ODMangaer;
 		};
+		BEAC320318FC0E04003AEA9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE51E44D18B2907F00B11F21 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BEAC31EF18FC0E04003AEA9C;
+			remoteInfo = ODManger;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BE51E45518B2907F00B11F21 /* libODManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libODManager.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE51E45518B2907F00B11F21 /* libODManagerOSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libODManagerOSX.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE51E45818B2907F00B11F21 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BE51E45B18B2907F00B11F21 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BE51E45C18B2907F00B11F21 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -71,6 +102,12 @@
 		BE51E4A218B2938000B11F21 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
 		BE51E4A318B2938000B11F21 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
 		BE51E4A618B2963A00B11F21 /* OpenDirectory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenDirectory.framework; path = System/Library/Frameworks/OpenDirectory.framework; sourceTree = SDKROOT; };
+		BEAC31F018FC0E04003AEA9C /* ODManger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ODManger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEAC320018FC0E04003AEA9C /* ODMangerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ODMangerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEAC320818FC0E04003AEA9C /* ODMangerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ODMangerTests-Info.plist"; sourceTree = "<group>"; };
+		BEAC320A18FC0E04003AEA9C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BEAC320C18FC0E04003AEA9C /* ODMangerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ODMangerTests.m; sourceTree = "<group>"; };
+		BEAD213A18FD7B9C00E5260E /* ODManagerConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ODManagerConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEAC323618FD6794003AEA9C /* OpenDirectory.framework in Frameworks */,
 				BE51E45918B2907F00B11F21 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,10 +124,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE51E46E18B2907F00B11F21 /* libODManager.a in Frameworks */,
+				BE51E46E18B2907F00B11F21 /* libODManagerOSX.a in Frameworks */,
 				BE51E4A818B2965E00B11F21 /* OpenDirectory.framework in Frameworks */,
 				BE51E46B18B2907F00B11F21 /* Cocoa.framework in Frameworks */,
 				BE51E46A18B2907F00B11F21 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEAC31EC18FC0E04003AEA9C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEAC31F118FC0E04003AEA9C /* Cocoa.framework in Frameworks */,
+				BEAC323518FD66BC003AEA9C /* OpenDirectory.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEAC31FD18FC0E04003AEA9C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEAC320218FC0E04003AEA9C /* Cocoa.framework in Frameworks */,
+				BEAC320518FC0E04003AEA9C /* ODManger.framework in Frameworks */,
+				BEAC320118FC0E04003AEA9C /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +158,7 @@
 			children = (
 				BE51E45E18B2907F00B11F21 /* ODManager */,
 				BE51E46F18B2907F00B11F21 /* ODManagerTests */,
+				BEAC320618FC0E04003AEA9C /* ODMangerTests */,
 				BE51E45718B2907F00B11F21 /* Frameworks */,
 				BE51E45618B2907F00B11F21 /* Products */,
 			);
@@ -109,8 +167,10 @@
 		BE51E45618B2907F00B11F21 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BE51E45518B2907F00B11F21 /* libODManager.a */,
+				BE51E45518B2907F00B11F21 /* libODManagerOSX.a */,
 				BE51E46818B2907F00B11F21 /* ODManagerTests.xctest */,
+				BEAC31F018FC0E04003AEA9C /* ODManger.framework */,
+				BEAC320018FC0E04003AEA9C /* ODMangerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,6 +199,7 @@
 		BE51E45E18B2907F00B11F21 /* ODManager */ = {
 			isa = PBXGroup;
 			children = (
+				BEAD213A18FD7B9C00E5260E /* ODManagerConstants.h */,
 				BE51E48B18B2916100B11F21 /* ODManager.h */,
 				BE51E48C18B2916100B11F21 /* ODManager.m */,
 				BE51E48D18B2916100B11F21 /* ODManagerRecord.h */,
@@ -185,6 +246,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BEAC320618FC0E04003AEA9C /* ODMangerTests */ = {
+			isa = PBXGroup;
+			children = (
+				BEAC320C18FC0E04003AEA9C /* ODMangerTests.m */,
+				BEAC320718FC0E04003AEA9C /* Supporting Files */,
+			);
+			path = ODMangerTests;
+			sourceTree = "<group>";
+		};
+		BEAC320718FC0E04003AEA9C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BEAC320818FC0E04003AEA9C /* ODMangerTests-Info.plist */,
+				BEAC320918FC0E04003AEA9C /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -193,23 +272,39 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE51E49318B2916100B11F21 /* ODManager.h in Headers */,
+				BEAD213C18FD7C0300E5260E /* ODManagerConstants.h in Headers */,
 				BE51E48118B2909C00B11F21 /* ODSecureObjects.h in Headers */,
-				BE51E4AA18B2A02C00B11F21 /* ODSecureObjects.m in Headers */,
 				BE51E4AB18B2A05800B11F21 /* ODManagerStrings.strings in Headers */,
-				BE51E49718B2916100B11F21 /* ODManagerEditor.h in Headers */,
-				BE51E4A418B2938000B11F21 /* TBXML.h in Headers */,
-				BE51E49F18B2921600B11F21 /* ODManagerError.h in Headers */,
 				BE51E49518B2916100B11F21 /* ODManagerRecord.h in Headers */,
+				BE51E49718B2916100B11F21 /* ODManagerEditor.h in Headers */,
 				BE51E49918B2916100B11F21 /* ODManagerNode.h in Headers */,
+				BE51E49F18B2921600B11F21 /* ODManagerError.h in Headers */,
+				BE51E4A418B2938000B11F21 /* TBXML.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEAC31ED18FC0E04003AEA9C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEAD213B18FD7BFA00E5260E /* ODManagerConstants.h in Headers */,
+				BEAC322D18FD665C003AEA9C /* ODManager.h in Headers */,
+				BEAC322E18FD6660003AEA9C /* ODSecureObjects.h in Headers */,
+				BEAC322F18FD6665003AEA9C /* ODManagerStrings.strings in Headers */,
+				BEAC323018FD668C003AEA9C /* ODManagerRecord.h in Headers */,
+				BEAC323118FD668E003AEA9C /* ODManagerEditor.h in Headers */,
+				BEAC323218FD6692003AEA9C /* ODManagerNode.h in Headers */,
+				BEAC323318FD6695003AEA9C /* ODManagerError.h in Headers */,
+				BEAC323418FD6698003AEA9C /* TBXML.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		BE51E45418B2907F00B11F21 /* ODManager */ = {
+		BE51E45418B2907F00B11F21 /* ODManagerOSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BE51E47918B2907F00B11F21 /* Build configuration list for PBXNativeTarget "ODManager" */;
+			buildConfigurationList = BE51E47918B2907F00B11F21 /* Build configuration list for PBXNativeTarget "ODManagerOSX" */;
 			buildPhases = (
 				BE51E45118B2907F00B11F21 /* Sources */,
 				BE51E45218B2907F00B11F21 /* Frameworks */,
@@ -219,9 +314,9 @@
 			);
 			dependencies = (
 			);
-			name = ODManager;
+			name = ODManagerOSX;
 			productName = ODMangaer;
-			productReference = BE51E45518B2907F00B11F21 /* libODManager.a */;
+			productReference = BE51E45518B2907F00B11F21 /* libODManagerOSX.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		BE51E46718B2907F00B11F21 /* ODManagerTests */ = {
@@ -242,6 +337,42 @@
 			productReference = BE51E46818B2907F00B11F21 /* ODManagerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		BEAC31EF18FC0E04003AEA9C /* ODManager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEAC320E18FC0E04003AEA9C /* Build configuration list for PBXNativeTarget "ODManager" */;
+			buildPhases = (
+				BEAC31EB18FC0E04003AEA9C /* Sources */,
+				BEAC31EC18FC0E04003AEA9C /* Frameworks */,
+				BEAC31ED18FC0E04003AEA9C /* Headers */,
+				BEAC31EE18FC0E04003AEA9C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ODManager;
+			productName = ODManger;
+			productReference = BEAC31F018FC0E04003AEA9C /* ODManger.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BEAC31FF18FC0E04003AEA9C /* ODMangerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEAC321118FC0E04003AEA9C /* Build configuration list for PBXNativeTarget "ODMangerTests" */;
+			buildPhases = (
+				BEAC31FC18FC0E04003AEA9C /* Sources */,
+				BEAC31FD18FC0E04003AEA9C /* Frameworks */,
+				BEAC31FE18FC0E04003AEA9C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BEAC320418FC0E04003AEA9C /* PBXTargetDependency */,
+			);
+			name = ODMangerTests;
+			productName = ODMangerTests;
+			productReference = BEAC320018FC0E04003AEA9C /* ODMangerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -250,6 +381,14 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Eldon Ahrold";
+				TargetAttributes = {
+					BE51E46718B2907F00B11F21 = {
+						TestTargetID = BE51E45418B2907F00B11F21;
+					};
+					BEAC31FF18FC0E04003AEA9C = {
+						TestTargetID = BEAC31EF18FC0E04003AEA9C;
+					};
+				};
 			};
 			buildConfigurationList = BE51E45018B2907F00B11F21 /* Build configuration list for PBXProject "ODManager" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -263,8 +402,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BE51E45418B2907F00B11F21 /* ODManager */,
+				BE51E45418B2907F00B11F21 /* ODManagerOSX */,
 				BE51E46718B2907F00B11F21 /* ODManagerTests */,
+				BEAC31EF18FC0E04003AEA9C /* ODManager */,
+				BEAC31FF18FC0E04003AEA9C /* ODMangerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -276,6 +417,21 @@
 			files = (
 				BE51E47418B2907F00B11F21 /* InfoPlist.strings in Resources */,
 				BE51E4A918B2968F00B11F21 /* ODManagerStrings.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEAC31EE18FC0E04003AEA9C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEAC31FE18FC0E04003AEA9C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEAC320B18FC0E04003AEA9C /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,13 +460,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BEAC31EB18FC0E04003AEA9C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEAD213218FD775600E5260E /* ODManager.m in Sources */,
+				BEAD213318FD775600E5260E /* ODManagerRecord.m in Sources */,
+				BEAD213418FD775600E5260E /* ODManagerEditor.m in Sources */,
+				BEAD213518FD775600E5260E /* ODManagerNode.m in Sources */,
+				BEAD213618FD775600E5260E /* ODSecureObjects.m in Sources */,
+				BEAD213718FD775600E5260E /* ODManagerError.m in Sources */,
+				BEAD213818FD775600E5260E /* TBXML.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEAC31FC18FC0E04003AEA9C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEAC320D18FC0E04003AEA9C /* ODMangerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		BE51E46D18B2907F00B11F21 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BE51E45418B2907F00B11F21 /* ODManager */;
+			target = BE51E45418B2907F00B11F21 /* ODManagerOSX */;
 			targetProxy = BE51E46C18B2907F00B11F21 /* PBXContainerItemProxy */;
+		};
+		BEAC320418FC0E04003AEA9C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BEAC31EF18FC0E04003AEA9C /* ODManager */;
+			targetProxy = BEAC320318FC0E04003AEA9C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -319,6 +502,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BE51E47318B2907F00B11F21 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BEAC320918FC0E04003AEA9C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BEAC320A18FC0E04003AEA9C /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -358,7 +549,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -390,6 +581,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -397,6 +589,7 @@
 		BE51E47A18B2907F00B11F21 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CURRENT_PROJECT_VERSION = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ODManager/ODManager-Prefix.pch";
@@ -405,13 +598,14 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /include;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = /include;
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		BE51E47B18B2907F00B11F21 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CURRENT_PROJECT_VERSION = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ODManager/ODManager-Prefix.pch";
@@ -420,7 +614,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /include;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = /include;
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -441,7 +635,7 @@
 				INFOPLIST_FILE = "ODManagerTests/ODManagerTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -459,7 +653,87 @@
 				INFOPLIST_FILE = "ODManagerTests/ODManagerTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		BEAC320F18FC0E04003AEA9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ODManger/ODManger-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ODManger/ODManger-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		BEAC321018FC0E04003AEA9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ODManger/ODManger-Prefix.pch";
+				INFOPLIST_FILE = "ODManger/ODManger-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		BEAC321218FC0E04003AEA9C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ODManger/ODManger-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ODMangerTests/ODMangerTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		BEAC321318FC0E04003AEA9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ODManger/ODManger-Prefix.pch";
+				INFOPLIST_FILE = "ODMangerTests/ODMangerTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -476,7 +750,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BE51E47918B2907F00B11F21 /* Build configuration list for PBXNativeTarget "ODManager" */ = {
+		BE51E47918B2907F00B11F21 /* Build configuration list for PBXNativeTarget "ODManagerOSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BE51E47A18B2907F00B11F21 /* Debug */,
@@ -490,6 +764,24 @@
 			buildConfigurations = (
 				BE51E47D18B2907F00B11F21 /* Debug */,
 				BE51E47E18B2907F00B11F21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEAC320E18FC0E04003AEA9C /* Build configuration list for PBXNativeTarget "ODManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEAC320F18FC0E04003AEA9C /* Debug */,
+				BEAC321018FC0E04003AEA9C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEAC321118FC0E04003AEA9C /* Build configuration list for PBXNativeTarget "ODMangerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEAC321218FC0E04003AEA9C /* Debug */,
+				BEAC321318FC0E04003AEA9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

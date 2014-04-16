@@ -37,14 +37,14 @@ NSString* kODMPresetRecord;
 @interface ODManager ()<ODManagerDelegate>{
     ODNode  *_node;
 }
-
+@property (readwrite,nonatomic)  NSInteger status;
 @end
 
 @implementation ODManager{
     NSInteger   returnCount;
     NSMutableArray *_queryResults;
     void(^QureyResults)(NSArray *queryResults, NSError *error);
-    void(^_QureyReplyBlock)(NSDictionary *queryResults);
+    void(^_QureyReplyBlock)( id queryResults);
 }
 
 #pragma mark - Singleton
@@ -131,12 +131,13 @@ NSString* kODMPresetRecord;
 }
 
 #pragma mark -- Async Reply with block
--(void)userListWithBlock:(void (^)(NSDictionary *))reply{
+-(void)userListWithBlock:(void (^)(ODUser *user))reply{
     if(!_node){
         if(![self getServerNode:nil]){
             return;
         }
     }
+    
     ODManagerRecord *records = [[ODManagerRecord alloc]initWithNode:_node];
     records.queryReplyBlock = reply;
     [records asyncQueryWithType:kODRecordTypeUsers];
@@ -276,13 +277,15 @@ NSString* kODMPresetRecord;
     if(_authenticated || [self authenticate:&error] > 0){
         NSOperationQueue* userListQueue = [NSOperationQueue new];
         [userListQueue addOperationWithBlock:^{
+            NSError *replyError;
             /* we use the singleton here so the import can get canceled */
             ODManagerEditor *editor = [ODManagerEditor sharedEditor];
             editor.node = _node;
             editor.delegate=_delegate;
             editor.errorReplyBlock=reply;
             editor.cancelRemoval = NO;
-            [editor removeListOfUsers:users error:nil];
+            [editor removeListOfUsers:users error:&replyError];
+            reply(replyError);
         }];
     }else{
         reply(error);
@@ -380,7 +383,7 @@ NSString* kODMPresetRecord;
     ODManagerNode *dn = [[ODManagerNode alloc]initWithServer:_directoryServer domain:_directoryDomain];
     if(_delegate)
         dn.delegate = _delegate;
-    else if(_nodeStatusUpdateHandler)
+    else 
         dn.delegate = self;
     
     _node = [dn getServerNode:_diradmin pass:_diradminPassword error:error];
@@ -398,13 +401,14 @@ NSString* kODMPresetRecord;
     if(!_node && ![self getServerNode:error]){
         return kODMNodeNotSet;
     }
-    ODManagerNode *direcotyNode = [[ODManagerNode alloc]initWithDomain:_directoryDomain];
-    if(_delegate)
-        direcotyNode.delegate = _delegate;
-    else if(_nodeStatusUpdateHandler)
-        direcotyNode.delegate = self;
     
-    OSStatus status = [direcotyNode authenticateToNode:_node user:_diradmin password:_diradminPassword error:error];
+    ODManagerNode *directoryNode = [[ODManagerNode alloc]initWithDomain:_directoryDomain];
+    if(_delegate)
+        directoryNode.delegate = _delegate;
+    else
+        directoryNode.delegate = self;
+    
+    OSStatus status = [directoryNode authenticateToNode:_node user:_diradmin password:_diradminPassword error:error];
     _authenticated = status > 0 ? YES:NO;
     
     return status;
@@ -455,6 +459,7 @@ NSString* kODMPresetRecord;
 
 #pragma mark - ODManagerDelegate
 -(void)didRecieveStatusUpdate:(OSStatus)status{
+    self.status = status;
     if(_nodeStatusUpdateHandler){
         _nodeStatusUpdateHandler(status);
     }

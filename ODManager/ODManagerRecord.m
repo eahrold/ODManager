@@ -103,11 +103,27 @@
     }
     
     for (ODRecord *record in inResults) {
-        _queryReturn = @{@"name":[record recordName],@"type":[record recordType]};
+        id returnRecord;
+
+        if([[record recordType] isEqualToString:kODRecordTypeUsers]){
+            returnRecord = [ODUser new];
+            [(ODUser*) returnRecord setUserName:record.recordName];
+            [(ODUser*) returnRecord setFirstName:record.firstName];
+            [(ODUser*) returnRecord setLastName:record.lastName];
+            [(ODUser*) returnRecord setUid:record.uid];
+            [(ODUser*) returnRecord setUserShell:record.userShell];
+        }else if ([[record recordType] isEqualToString:kODRecordTypePresetUsers]){
+            returnRecord = [ODPreset new];
+            [(ODPreset*) returnRecord setPresetName:record.recordName];
+        }else if ([[record recordType] isEqualToString:kODRecordTypeGroups]){
+            returnRecord = [ODGroup new];
+            [(ODGroup*) returnRecord setGroupName:record.recordName];
+        }
+        
         if(_delegate)
-            [_delegate didRecieveQueryUpdate:_queryReturn];
+            [_delegate didRecieveQueryUpdate:returnRecord];
         if(_queryReplyBlock)
-            _queryReplyBlock(_queryReturn);
+            _queryReplyBlock(returnRecord);
     }
 }
 
@@ -235,10 +251,18 @@
     return [[self valuesForAttribute:kODAttributeTypeNFSHomeDirectory error:nil]lastObject];
 }
 -(NSString *)sharePath{
-    return  [TBXML getValueForKey:@"path" fromXMLString:self.homeDirectory];
+    NSString *val = [TBXML getValueForKey:@"path" fromXMLString:self.homeDirectory];
+    if([val isEqualToString:@"(null)"]){
+        return nil;
+    }
+    return  val;
 };
 -(NSString *)sharePoint{
-    return [TBXML getValueForKey:@"url" fromXMLString:self.homeDirectory];
+    NSString* val = [TBXML getValueForKey:@"url" fromXMLString:self.homeDirectory];
+    if([val isEqualToString:@"(null)"]){
+        return nil;
+    }
+    return val;
 };
 
 @end

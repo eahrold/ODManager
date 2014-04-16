@@ -25,23 +25,10 @@
 
 #import <Foundation/Foundation.h>
 #import "ODSecureObjects.h"
+#import "ODManagerConstants.h"
+
 extern NSString* domainDescription(int domain);
 extern NSString* nodeStatusDescription(int status);
-
-typedef NS_ENUM(NSInteger, ODMDirectoryDomains){
-    kODMLocalDomain            = 0x2200,
-    kODMDefaultDomain          = 0x2201,
-    kODMDirectoryServiceDomain = 0x2202,
-    kODMProxyDirectoryServer   = 0x2203,
-};
-
-typedef NS_ENUM(NSInteger,ODManagerNodeStatus){
-    kODMNodeAuthenticatedProxy    =  2,
-    kODMNodeAuthenticatedLocal    =  1,
-    kODMNodeNotSet                =  0,
-    kODMNodeNotAuthenticatedLocal = -1,
-    kODMNodeNotAutenticatedProxy  = -2,
-};
 
 extern NSString* kODMUserRecord;
 extern NSString* kODMGroupRecord;
@@ -58,7 +45,7 @@ extern NSString* kODMPresetRecord;
  *
  *  @param record Dictionary with two keys Type and Name
  */
--(void)didRecieveQueryUpdate:(NSDictionary*)record;
+-(void)didRecieveQueryUpdate:(id)record;
 
 /**
  *  sent when node status is changed
@@ -134,6 +121,11 @@ extern NSString* kODMPresetRecord;
  *  Open Directory Domain, Local, Proxy, Default.  Cooresponds ODMDirectoryDomains
  */
 @property (readwrite,nonatomic) ODMDirectoryDomains directoryDomain;
+
+/**
+ *  block that is called when the node status changes.  The block has no return value and one argument: OSStatus;
+ */
+@property (readonly)  NSInteger status;
 
 /**
  *  block that is called when the node status changes.  The block has no return value and one argument: OSStatus;
@@ -454,7 +446,7 @@ extern NSString* kODMPresetRecord;
  *  @discussion the block will return a dictionary with two keys type and name for each user
 
  */
--(void)userListWithBlock:(void(^)(NSDictionary*))reply;
+-(void)userListWithBlock:(void(^)(ODUser* user))reply;
 
 /**
  *  Get a list of all the users in the directory

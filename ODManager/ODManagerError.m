@@ -78,6 +78,10 @@ static NSString *const errorDomain = @"com.eeaapps.odmanager";
 			message = NSLocalizedStringFromTableInBundle(@"errCouldNotAddUser", tabel, bundel, nil);
             break;
 		}
+        case kODMerrUserAlreadyExists: {
+			message = NSLocalizedStringFromTableInBundle(@"errUserAlreadyExists", tabel, bundel, nil);
+            break;
+		}
         case kODMerrCouldNotRemoveUser: {
 			message = NSLocalizedStringFromTableInBundle(@"errCouldNotRemoveUser", tabel, bundel, nil);
             break;

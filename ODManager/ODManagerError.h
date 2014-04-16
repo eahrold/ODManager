@@ -23,30 +23,7 @@
 // THE SOFTWARE.//
 
 #import <Foundation/Foundation.h>
-
-typedef NS_ENUM(int, ODMErrorCodes){
-    kODMerrSuccess                      = 0,
-    kODMerrCouldNotConnectToNode        = 1000,
-    kODMerrNoUserRecord,
-    kODMerrNoGroupRecord,
-    kODMerrNoPresetRecord,
-    kODMerrNoMatchingRecord,
-    
-    kODMerrWrongPassword                = 2002,
-    kODMerrNoPasswordSupplied,
-    kODMerrInvakidCredentials,
-    kODMerrODSessionError,
-    kODMerrNoDirectoryNode              = 2006,
-    
-    kODMerrCouldNotAddUser              = 3000,
-    kODMerrCouldNotRemoveUser,
-    kODMerrCouldNotAddGroup,
-    kODMerrCouldNotRemoveGroup,
-    kODMerrCouldNotAddUserToGroup,
-    kODMerrCouldNotRemoveUserFromGroup,
-    kODMerrIncompleteUserObject,
-    kODMerrIncompleteGroupObject,
-};
+#import "ODManagerConstants.h"
 
 
 @interface ODManagerError : NSError

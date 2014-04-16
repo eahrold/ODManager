@@ -29,7 +29,7 @@
 
 @interface ODManagerRecord : ODRecord <ODQueryDelegate>
 @property (weak) id<ODManagerDelegate>delegate;
-@property (copy) void (^queryReplyBlock)(NSDictionary* dictionary);
+@property (copy) void (^queryReplyBlock)(id record);
 
 @property (weak,nonatomic)   ODNode *node;
 @property (strong) void(^replyError)(NSError *error);
