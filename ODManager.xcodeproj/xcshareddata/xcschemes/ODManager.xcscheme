@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BE51E45418B2907F00B11F21"
-               BuildableName = "libODManager.a"
+               BuildableName = "libODManagerOSX.a"
                BlueprintName = "ODManagerOSX"
                ReferencedContainer = "container:ODManager.xcodeproj">
             </BuildableReference>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BE51E46718B2907F00B11F21"
-               BuildableName = "ODManagerTests.xctest"
-               BlueprintName = "ODManagerTests"
+               BuildableName = "ODManagerLibTests.xctest"
+               BlueprintName = "ODManagerLibTests"
                ReferencedContainer = "container:ODManager.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BE51E46718B2907F00B11F21"
-               BuildableName = "ODManagerTests.xctest"
-               BlueprintName = "ODManagerTests"
+               BuildableName = "ODManagerLibTests.xctest"
+               BlueprintName = "ODManagerLibTests"
                ReferencedContainer = "container:ODManager.xcodeproj">
             </BuildableReference>
          </TestableReference>
