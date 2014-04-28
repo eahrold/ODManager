@@ -231,6 +231,7 @@ NSString* kODMPresetRecord;
             ODManagerEditor *editor = [ODManagerEditor sharedEditor];
             editor.delegate=_delegate;
             editor.errorReplyBlock=reply;
+            editor.progressUpdateBlock = _userAddedUpdateHandler;
             editor.node=_node;
             editor.continueImport = YES;
             [editor addUsers:list withPreset:preset error:nil];
@@ -465,6 +466,7 @@ NSString* kODMPresetRecord;
     }
 }
 
+
 @end
 
 NSString* domainDescription(int domain){
@@ -473,8 +475,7 @@ NSString* domainDescription(int domain){
         case kODMProxyDirectoryServer: {
             dd = @"Proxy Server";
             break;
-        }
-        case kODMDefaultDomain: {
+        }case kODMDefaultDomain: {
             dd = @"Default Domain";
             break;
         }case kODMDirectoryServiceDomain: {
@@ -483,8 +484,7 @@ NSString* domainDescription(int domain){
         }case kODMLocalDomain: {
             dd = @"Local Domain";
             break;
-        }
-        default:{
+        }default:{
             dd = @"unknown";
         }
     }

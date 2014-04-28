@@ -39,6 +39,7 @@
 		BEA14CE818FECF9700BE1A00 /* ODManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA14CE718FECF9600BE1A00 /* ODManagerTests.m */; };
 		BEA14CEF18FECFD700BE1A00 /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E4A618B2963A00B11F21 /* OpenDirectory.framework */; };
 		BEA14CF118FECFE400BE1A00 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BEA14CF018FECFE400BE1A00 /* libxml2.dylib */; };
+		BEABE6AB1900C80A00FBD065 /* ODManagerStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE51E4A118B2938000B11F21 /* ODManagerStrings.strings */; };
 		BEAC323618FD6794003AEA9C /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE51E4A618B2963A00B11F21 /* OpenDirectory.framework */; };
 		BEAD213C18FD7C0300E5260E /* ODManagerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = BEAD213A18FD7B9C00E5260E /* ODManagerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEBFF11018FEFC8D008030EC /* ODManagerRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E48E18B2916100B11F21 /* ODManagerRecord.m */; };
@@ -52,7 +53,7 @@
 		BEBFF11818FEFCD3008030EC /* ODManagerRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E48D18B2916100B11F21 /* ODManagerRecord.h */; };
 		BEBFF11918FEFCD3008030EC /* ODManagerEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E48F18B2916100B11F21 /* ODManagerEditor.h */; };
 		BEBFF11A18FEFCD3008030EC /* ODManagerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E49118B2916100B11F21 /* ODManagerNode.h */; };
-		BEBFF11B18FEFCD3008030EC /* ODSecureObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E47F18B2909C00B11F21 /* ODSecureObjects.h */; };
+		BEBFF11B18FEFCD3008030EC /* ODSecureObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E47F18B2909C00B11F21 /* ODSecureObjects.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEBFF11C18FEFCD3008030EC /* ODManagerError.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E49C18B2921600B11F21 /* ODManagerError.h */; };
 		BEBFF11D18FEFCD3008030EC /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = BE51E4A218B2938000B11F21 /* TBXML.h */; };
 		BEBFF11E18FEFDAF008030EC /* ODManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BE51E48C18B2916100B11F21 /* ODManager.m */; };
@@ -317,12 +318,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEBFF11618FEFCB3008030EC /* ODManagerConstants.h in Headers */,
 				BEBFF11718FEFCB3008030EC /* ODManager.h in Headers */,
+				BEBFF11618FEFCB3008030EC /* ODManagerConstants.h in Headers */,
+				BEBFF11B18FEFCD3008030EC /* ODSecureObjects.h in Headers */,
 				BEBFF11818FEFCD3008030EC /* ODManagerRecord.h in Headers */,
 				BEBFF11918FEFCD3008030EC /* ODManagerEditor.h in Headers */,
 				BEBFF11A18FEFCD3008030EC /* ODManagerNode.h in Headers */,
-				BEBFF11B18FEFCD3008030EC /* ODSecureObjects.h in Headers */,
 				BEBFF11C18FEFCD3008030EC /* ODManagerError.h in Headers */,
 				BEBFF11D18FEFCD3008030EC /* TBXML.h in Headers */,
 			);
@@ -453,6 +454,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEABE6AB1900C80A00FBD065 /* ODManagerStrings.strings in Resources */,
 				BEA14CD218FECF9600BE1A00 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

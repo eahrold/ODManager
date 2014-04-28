@@ -133,6 +133,11 @@ extern NSString* kODMPresetRecord;
 @property (copy) void (^nodeStatusUpdateHandler)(OSStatus status);
 
 /**
+ *  block that is called when a user is added.  The block has no return value and takes two argument: user and progress;
+ */
+@property (copy) void (^userAddedUpdateHandler)(NSString *user,double progress);
+
+/**
  *  wether the node is currently authenticated
  */
 @property (nonatomic,readonly ) BOOL authenticated;
