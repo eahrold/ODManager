@@ -22,7 +22,6 @@
 // THE SOFTWARE.
 //
 
-
 #import <OpenDirectory/OpenDirectory.h>
 #import "ODManager.h"
 #import "ODManagerNode.h"
@@ -34,23 +33,25 @@ NSString* kODMUserRecord;
 NSString* kODMGroupRecord;
 NSString* kODMPresetRecord;
 
-@interface ODManager ()<ODManagerDelegate>{
-    ODNode  *_node;
+@interface ODManager () <ODManagerDelegate> {
+    ODManagerNode* _nodeManager;
 }
-@property (readwrite,nonatomic)  NSInteger status;
+
+@property (readwrite, nonatomic) NSInteger status;
 @end
 
-@implementation ODManager{
-    NSInteger   returnCount;
-    NSMutableArray *_queryResults;
-    void(^QureyResults)(NSArray *queryResults, NSError *error);
-    void(^_QureyReplyBlock)( id queryResults);
+@implementation ODManager {
+    NSInteger returnCount;
+    NSMutableArray* _queryResults;
+    void (^QureyResults)(NSArray* queryResults, NSError* error);
+    void (^_QureyReplyBlock)(id queryResults);
 }
 
 #pragma mark - Singleton
-+(ODManager *)sharedManager{
++ (ODManager*)sharedManager
+{
     static dispatch_once_t onceToken;
-    static ODManager *shared;
+    static ODManager* shared;
     dispatch_once(&onceToken, ^{
         shared = [[ODManager alloc] init];
     });
@@ -59,27 +60,20 @@ NSString* kODMPresetRecord;
 
 #pragma mark - Initializers
 
--(id)init{
-    self = [super init];
-    if(self){
-//        [self addObserver:self forKeyPath:@"directoryDomain" options:NSKeyValueObservingOptionNew context:NULL];
-//        [self addObserver:self forKeyPath:@"directoryServer" options:NSKeyValueObservingOptionNew context:NULL];
-    }
-    return self;
-}
-
--(id)initWithDelegate:(id<ODManagerDelegate>)delegate{
+- (id)initWithDelegate:(id<ODManagerDelegate>)delegate
+{
     self = [self init];
-    if(self){
+    if (self) {
         _delegate = delegate;
         [_delegate didRecieveStatusUpdate:kODMNodeNotSet];
     }
     return self;
 }
 
--(id)initWithServer:(NSString *)server domain:(int)domain{
+- (id)initWithServer:(NSString*)server domain:(int)domain
+{
     self = [self init];
-    if(self){
+    if (self) {
         _directoryServer = server;
         _directoryDomain = domain;
         [self getServerNode:nil];
@@ -87,248 +81,279 @@ NSString* kODMPresetRecord;
     return self;
 }
 
--(id)initWithServer:(NSString *)server{
+- (id)initWithServer:(NSString*)server
+{
     return [self initWithServer:server domain:kODMDefaultDomain];
 }
 
--(id)initWithDomain:(ODMDirectoryDomains)domain{
+- (id)initWithDomain:(ODMDirectoryDomains)domain
+{
     return [self initWithServer:nil domain:domain];
 }
 
--(id)initWithDefaultDomain{
+- (id)initWithDefaultDomain
+{
     return [self initWithServer:nil domain:kODMDefaultDomain];
 }
 
--(void)dealloc{
-    [self removeObserver:self forKeyPath:@"directoryDomain"];
-    [self removeObserver:self forKeyPath:@"directoryServer"];
+- (void)dealloc
+{
+    //    [self removeObserver:self forKeyPath:@"directoryDomain"];
+    //    [self removeObserver:self forKeyPath:@"directoryServer"];
 }
 
-
 #pragma mark - Query
-#pragma mark -- With Delegate
--(void)userListWithDelegate:(id<ODManagerDelegate>)delegate{
+#pragma mark-- With Delegate
+- (void)userListWithDelegate:(id<ODManagerDelegate>)delegate
+{
     [self queryWithDelegate:delegate type:kODRecordTypeUsers];
 }
 
--(void)groupListWithDelegate:(id<ODManagerDelegate>)delegate{
+- (void)groupListWithDelegate:(id<ODManagerDelegate>)delegate
+{
     [self queryWithDelegate:delegate type:kODRecordTypeGroups];
 }
 
--(void)presetListWithDelegate:(id<ODManagerDelegate>)delegate{
+- (void)presetListWithDelegate:(id<ODManagerDelegate>)delegate
+{
     [self queryWithDelegate:delegate type:kODRecordTypePresetUsers];
 }
 
--(void)queryWithDelegate:(id<ODManagerDelegate>)delegate type:(NSString*)type{
-    if(!_node){
-        if(![self getServerNode:nil]){
+- (void)queryWithDelegate:(id<ODManagerDelegate>)delegate type:(NSString*)type
+{
+    if (!_nodeManager.node) {
+        if (![self getServerNode:nil]) {
             return;
         }
     }
-    ODManagerRecord *records = [[ODManagerRecord alloc]initWithNode:_node];
+    ODManagerRecord* records = [[ODManagerRecord alloc] initWithNode:_nodeManager.node];
     records.delegate = delegate;
     [records asyncQueryWithType:type];
 }
 
-#pragma mark -- Async Reply with block
--(void)userListWithBlock:(void (^)(ODUser *user))reply{
-    if(!_node){
-        if(![self getServerNode:nil]){
+#pragma mark-- Async Reply with block
+- (void)userListWithBlock:(void (^)(ODUser* user))reply
+{
+    if (!_nodeManager.node) {
+        if (![self getServerNode:nil]) {
             return;
         }
     }
-    
-    ODManagerRecord *records = [[ODManagerRecord alloc]initWithNode:_node];
+
+    ODManagerRecord* records = [[ODManagerRecord alloc] initWithNode:_nodeManager.node];
     records.queryReplyBlock = reply;
     [records asyncQueryWithType:kODRecordTypeUsers];
 }
 
-#pragma mark -- With Reply Block
--(void)userList:(void (^)(NSArray *))reply{
+#pragma mark-- With Reply Block
+- (void)userList:(void (^)(NSArray*))reply
+{
     NSOperationQueue* queue = [NSOperationQueue new];
     [queue addOperationWithBlock:^{
         reply([self queryListType:kODRecordTypeUsers]);
     }];
 }
 
--(void)groupList:(void(^)(NSArray *array))reply{
+- (void)groupList:(void (^)(NSArray* array))reply
+{
     NSOperationQueue* queue = [NSOperationQueue new];
     [queue addOperationWithBlock:^{
         reply([self queryListType:kODRecordTypeGroups]);
     }];
 }
 
--(void)presetList:(void(^)(NSArray *array))reply{
+- (void)presetList:(void (^)(NSArray* array))reply
+{
     NSOperationQueue* queue = [NSOperationQueue new];
     [queue addOperationWithBlock:^{
         reply([self queryListType:kODRecordTypePresetUsers]);
     }];
 }
 
--(NSArray*)queryListType:(NSString*)type{
-    if(!_node){
-        if(![self getServerNode:nil]){
-            return  nil;
+- (NSArray*)queryListType:(NSString*)type
+{
+    if (!_nodeManager.node) {
+        if (![self getServerNode:nil]) {
+            return nil;
         }
     }
-    ODManagerRecord *rg = [[ODManagerRecord alloc]initWithNode:_node];
+    ODManagerRecord* rg = [[ODManagerRecord alloc] initWithNode:_nodeManager.node];
     return [rg listQueryWithType:type];
 }
 
-
--(NSArray *)groupMembers:(NSString*)group{
-    if(!_node)[self getServerNode:nil];
-    return [ODManagerRecord groupMembers:group node:_node];
+- (NSArray*)groupMembers:(NSString*)group
+{
+    if (!_nodeManager.node)
+        [self getServerNode:nil];
+    return [ODManagerRecord groupMembers:group node:_nodeManager.node];
 }
 
--(NSArray*)avaliableLocalNodes{
-    if(!_node){
+- (NSArray*)avaliableLocalNodes
+{
+    if (!_nodeManager.node) {
         [self getServerNode:nil];
     }
-    
-    if(_node){
-        NSDictionary *dict = [_node nodeDetailsForKeys:nil error:nil];
+
+    if (_nodeManager.node) {
+        NSDictionary* dict = [_nodeManager.node nodeDetailsForKeys:nil error:nil];
         return dict[@"dsAttrTypeStandard:CSPSearchPath"];
     }
     return nil;
 }
 
--(BOOL)user:(NSString*)user isMemberOfGroup:(NSString *)group error:(NSError*__autoreleasing*)error{
-    return [ODManagerRecord user:user isMemberOfGroup:group node:_node error:error];
+- (BOOL)user:(NSString*)user isMemberOfGroup:(NSString*)group error:(NSError* __autoreleasing*)error
+{
+    return [ODManagerRecord user:user isMemberOfGroup:group node:_nodeManager.node error:error];
 }
 
--(ODPreset *)settingsForPreset:(NSString *)preset{
-    return [ODManagerRecord settingsForPrest:preset node:_node];
+- (ODPreset*)settingsForPreset:(NSString*)preset
+{
+    return [ODManagerRecord settingsForPrest:preset node:_nodeManager.node];
 }
 
 #pragma mark - ODUser / ODGroup Modifiers
 #pragma mark Add ODUser
--(BOOL)addUser:(ODUser *)user error:(NSError *__autoreleasing *)error{
+- (BOOL)addUser:(ODUser*)user error:(NSError* __autoreleasing*)error
+{
     return [self addUser:user withPreset:nil error:error];
 }
 
--(BOOL)addUser:(ODUser *)user withPreset:(NSString *)preset error:(NSError *__autoreleasing *)error{
-    if(!_authenticated || [self authenticate:error] <= 0){
-        return NO;
+- (BOOL)addUser:(ODUser*)user withPreset:(NSString*)preset error:(NSError* __autoreleasing*)error
+{
+    if (_authenticated || [self authenticate:error] > 0) {
+        ODRecordList* list = [ODRecordList new];
+        ODManagerEditor* editor = [[ODManagerEditor alloc] initWithNode:_nodeManager.node];
+        list.users = @[ user ];
+        return [editor addUsers:list withPreset:preset error:error];
     }
-    
-    ODRecordList* list = [ODRecordList new];
-    ODManagerEditor *editor = [[ODManagerEditor alloc]initWithNode:_node];
-    list.users = @[user];
-    return [editor addUsers:list withPreset:preset error:error];
+    return NO;
 }
 
--(void)addListOfUsers:(ODRecordList *)list reply:(void (^)(NSError *))reply{
+- (void)addListOfUsers:(ODRecordList*)list reply:(void (^)(NSError*))reply
+{
     [self addListOfUsers:list withPreset:nil reply:reply];
 }
 
--(void)addListOfUsers:(ODRecordList*)list withPreset:(NSString *)preset reply:(void(^)(NSError *))reply{
+- (void)addListOfUsers:(ODRecordList*)list withPreset:(NSString*)preset reply:(void (^)(NSError*))reply
+{
     NSError* error;
-    if(_authenticated || [self authenticate:&error] > 0){
+    if (_authenticated || [self authenticate:&error] > 0) {
         NSOperationQueue* userListQueue = [NSOperationQueue new];
         [userListQueue addOperationWithBlock:^{
             /* we use the singleton here so the import can get canceled */
-            ODManagerEditor *editor = [ODManagerEditor sharedEditor];
+            ODManagerEditor *editor = [ODManagerEditor new];
             editor.delegate=_delegate;
             editor.errorReplyBlock=reply;
             editor.progressUpdateBlock = _userAddedUpdateHandler;
-            editor.node=_node;
+            editor.node=_nodeManager.node;
             editor.continueImport = YES;
             [editor addUsers:list withPreset:preset error:nil];
         }];
-    }else{
+    } else {
         reply(error);
     }
 }
 
--(void)addListOfUsers:(ODRecordList *)list progress:(void (^)(NSString *, double))progress reply:(void (^)(NSError *))reply{
+- (void)addListOfUsers:(ODRecordList*)list progress:(void (^)(NSString*, double))progress reply:(void (^)(NSError*))reply
+{
     [self addListOfUsers:list withPreset:nil progress:progress reply:reply];
 }
 
--(void)addListOfUsers:(ODRecordList *)list withPreset:(NSString *)preset progress:(void (^)(NSString *, double))progress reply:(void (^)(NSError *))reply{
+- (void)addListOfUsers:(ODRecordList*)list withPreset:(NSString*)preset progress:(void (^)(NSString*, double))progress reply:(void (^)(NSError*))reply
+{
     NSError* error;
-    if(_authenticated || [self authenticate:&error] > 0){
+    if (_authenticated || [self authenticate:&error] > 0) {
         NSOperationQueue* userListQueue = [NSOperationQueue new];
         [userListQueue addOperationWithBlock:^{
             /* we use the singleton here so the import can get canceled */
             ODManagerEditor *editor = [ODManagerEditor sharedEditor];
             editor.progressUpdateBlock = progress;
             editor.errorReplyBlock=reply;
-            editor.node=_node;
+            editor.node=_nodeManager.node;
             editor.continueImport = YES;
             [editor addUsers:list withPreset:preset error:nil];
         }];
-    }else{
+    } else {
         reply(error);
     }
 }
 
--(void)cancelUserImport{
-    [[ODManagerEditor sharedEditor]setContinueImport:NO];
+- (void)cancelUserImport
+{
+    [[ODManagerEditor sharedEditor] setContinueImport:NO];
 }
 
 #pragma mark Remove Users
--(BOOL)removeUser:(NSString *)user error:(NSError *__autoreleasing *)error{
-    ODRecord *record = [ODManagerRecord getUserRecord:user node:_node error:error];
+- (BOOL)removeUser:(NSString*)user error:(NSError* __autoreleasing*)error
+{
+    ODRecord* record = [ODManagerRecord getUserRecord:user node:_nodeManager.node error:error];
     return [record deleteRecordAndReturnError:error];
 }
 
--(void)removeUsers:(NSArray *)users reply:(void(^)(NSError *error))reply{
+- (void)removeUsers:(NSArray*)users reply:(void (^)(NSError* error))reply
+{
     NSError* error;
-    if(_authenticated || [self authenticate:&error] > 0){
+    if (_authenticated || [self authenticate:&error] > 0) {
         NSOperationQueue* userListQueue = [NSOperationQueue new];
         [userListQueue addOperationWithBlock:^{
             NSError *replyError;
             /* we use the singleton here so the import can get canceled */
             ODManagerEditor *editor = [ODManagerEditor sharedEditor];
-            editor.node = _node;
+            editor.node = _nodeManager.node;
             editor.delegate=_delegate;
             editor.errorReplyBlock=reply;
             editor.cancelRemoval = NO;
             [editor removeListOfUsers:users error:&replyError];
             reply(replyError);
         }];
-    }else{
+    } else {
         reply(error);
     }
 }
 
--(void)cancelUserRemoval{
-    [[ODManagerEditor sharedEditor]setCancelRemoval:YES];
+- (void)cancelUserRemoval
+{
+    [[ODManagerEditor sharedEditor] setCancelRemoval:YES];
 }
 
-#pragma mark  Add Users to Groups
--(BOOL)addUser:(NSString *)user toGroup:(NSString *)group error:(NSError *__autoreleasing *)error{
-    return [self addUsers:@[user] toGroup:group error:error];
+#pragma mark Add Users to Groups
+- (BOOL)addUser:(NSString*)user toGroup:(NSString*)group error:(NSError* __autoreleasing*)error
+{
+    return [self addUsers:@[ user ] toGroup:group error:error];
 }
 
--(BOOL)addUsers:(NSArray *)users toGroup:(NSString *)group error:(NSError *__autoreleasing *)error{
-    if(_authenticated || [self authenticate:error] > 0){
-        ODManagerEditor* editor = [[ODManagerEditor alloc]initWithNode:_node];
-        editor.delegate=_delegate;
+- (BOOL)addUsers:(NSArray*)users toGroup:(NSString*)group error:(NSError* __autoreleasing*)error
+{
+    if (_authenticated || [self authenticate:error] > 0) {
+        ODManagerEditor* editor = [[ODManagerEditor alloc] initWithNode:_nodeManager.node];
+        editor.delegate = _delegate;
         return [editor addUsers:users toGroup:group error:error];
     }
     return NO;
 }
 
--(BOOL)removeUser:(NSString *)user fromGroup:(NSString *)group error:(NSError *__autoreleasing *)error{
-    return [self removeUsers:@[user] fromGroup:group error:error];
+- (BOOL)removeUser:(NSString*)user fromGroup:(NSString*)group error:(NSError* __autoreleasing*)error
+{
+    return [self removeUsers:@[ user ] fromGroup:group error:error];
 }
 
--(BOOL)removeUsers:(NSArray *)users fromGroup:(NSString *)group error:(NSError *__autoreleasing *)error{
-    if(_authenticated || [self authenticate:error] > 0){
-        ODManagerEditor* editor = [[ODManagerEditor alloc]initWithNode:_node];
+- (BOOL)removeUsers:(NSArray*)users fromGroup:(NSString*)group error:(NSError* __autoreleasing*)error
+{
+    if (_authenticated || [self authenticate:error] > 0) {
+        ODManagerEditor* editor = [[ODManagerEditor alloc] initWithNode:_nodeManager.node];
         return [editor removeUsers:users fromGroup:group error:error];
     }
-    return NO;}
+    return NO;
+}
 
--(BOOL)removeAllUsersFromGroup:(NSString *)group error:(NSError *__autoreleasing *)error{
-    if(_authenticated || [self authenticate:error] > 0){
-        ODManagerEditor* editor = [[ODManagerEditor alloc]initWithNode:_node];
-        ODRecord* record = [ODManagerRecord getGroupRecord:group node:_node error:error];
-        NSDictionary *attributes= [record recordDetailsForAttributes:@[kODAttributeTypeGroupMembers] error:nil];
+- (BOOL)removeAllUsersFromGroup:(NSString*)group error:(NSError* __autoreleasing*)error
+{
+    if (_authenticated || [self authenticate:error] > 0) {
+        ODManagerEditor* editor = [[ODManagerEditor alloc] initWithNode:_nodeManager.node];
+        ODRecord* record = [ODManagerRecord getGroupRecord:group node:_nodeManager.node error:error];
+        NSDictionary* attributes = [record recordDetailsForAttributes:@[ kODAttributeTypeGroupMembers ] error:nil];
         NSArray* users = attributes[@"dsAttrTypeStandard:GroupMembers"];
-        if(users.count)
+        if (users.count)
             return [editor removeUsers:users fromGroup:group error:error];
         else
             return YES;
@@ -337,121 +362,147 @@ NSString* kODMPresetRecord;
 }
 
 #pragma mark Add Groups
--(BOOL)addGroup:(ODGroup *)group error:(NSError *)error{
+- (BOOL)addGroup:(ODGroup*)group error:(NSError*)error
+{
     return NO;
 }
 
--(BOOL)addGroups:(ODRecordList *)list error:(NSError *)error{
+- (BOOL)addGroups:(ODRecordList*)list error:(NSError*)error
+{
     return NO;
 }
--(BOOL)removeGroup:(NSString *)group error:(NSError *)error{
+- (BOOL)removeGroup:(NSString*)group error:(NSError*)error
+{
     return NO;
 }
 
--(BOOL)removeGroups:(NSArray *)groups error:(NSError *)error{
+- (BOOL)removeGroups:(NSArray*)groups error:(NSError*)error
+{
     return NO;
 }
 
 #pragma mark - Passwords
 
--(BOOL)resetPassword:(NSString*)oldPassword toPassword:(NSString *)newPassword user:(NSString *)user{
+- (BOOL)resetPassword:(NSString*)oldPassword toPassword:(NSString*)newPassword user:(NSString*)user
+{
     return [self resetPassword:oldPassword toPassword:newPassword user:user error:nil];
 }
 
--(BOOL)resetPassword:(NSString*)oldPassword toPassword:(NSString *)newPassword user:(NSString *)user error:(NSError *__autoreleasing *)error{
-    ODManagerEditor* editor = [[ODManagerEditor alloc]initWithNode:_node
-                                                                status:_authenticated];
-    
+- (BOOL)resetPassword:(NSString*)oldPassword toPassword:(NSString*)newPassword user:(NSString*)user error:(NSError* __autoreleasing*)error
+{
+    ODManagerEditor* editor = [[ODManagerEditor alloc] initWithNode:_nodeManager.node
+                                                             status:_authenticated];
+
     return [editor changePassword:oldPassword to:newPassword user:user error:error];
 }
 
-
-
 #pragma mark - Node
--(BOOL)refreshNode{
+- (BOOL)refreshNode
+{
     return [self refreshNode:nil];
 }
 
--(BOOL)refreshNode:(NSError *__autoreleasing *)error{
+- (BOOL)refreshNode:(NSError* __autoreleasing*)error
+{
     BOOL rc = [self getServerNode:error];
-    if(rc && _diradmin && _diradminPassword){
+    if (rc && _diradmin && _diradminPassword) {
         [self authenticate:error];
     };
     return rc;
 }
 
--(BOOL)getServerNode:(NSError*__autoreleasing*)error{
-    ODManagerNode *dn = [[ODManagerNode alloc]initWithServer:_directoryServer domain:_directoryDomain];
-    if(_delegate)
-        dn.delegate = _delegate;
-    else 
-        dn.delegate = self;
-    
-    _node = [dn getServerNode:_diradmin pass:_diradminPassword error:error];
-    if(_node){
+- (BOOL)getServerNode:(NSError* __autoreleasing*)error
+{
+    if (_nodeManager.status > 0) {
+        return YES;
+    }
+
+    _nodeManager = [[ODManagerNode alloc] initWithServer:_directoryServer domain:_directoryDomain];
+
+    if (_delegate)
+        _nodeManager.delegate = _delegate;
+    else
+        _nodeManager.delegate = self;
+
+    [_nodeManager getServerNode:_diradmin pass:_diradminPassword error:error];
+
+    if (_nodeManager.node) {
         return YES;
     }
     return NO;
 }
 
--(ODManagerNodeStatus)authenticate{
+- (ODManagerNodeStatus)authenticate
+{
     return [self authenticate:nil];
 }
 
--(ODManagerNodeStatus)authenticate:(NSError*__autoreleasing*)error{
-    if(!_node && ![self getServerNode:error]){
+- (ODManagerNodeStatus)authenticate:(NSError* __autoreleasing*)error
+{
+    if (!_nodeManager.node && ![self getServerNode:error]) {
         return kODMNodeNotSet;
     }
-    
-    ODManagerNode *directoryNode = [[ODManagerNode alloc]initWithDomain:_directoryDomain];
-    if(_delegate)
-        directoryNode.delegate = _delegate;
+
+    if (_nodeManager.domain == kODMProxyDirectoryServer) {
+        _authenticated = _nodeManager.status > 0 ? YES : NO;
+        return _nodeManager.status;
+    }
+
+    if (_delegate)
+        _nodeManager.delegate = _delegate;
     else
-        directoryNode.delegate = self;
-    
-    OSStatus status = [directoryNode authenticateToNode:_node user:_diradmin password:_diradminPassword error:error];
-    _authenticated = status > 0 ? YES:NO;
-    
+        _nodeManager.delegate = self;
+
+    OSStatus status = [_nodeManager authenticateWithUser:_diradmin password:_diradminPassword error:error];
+
+    _authenticated = status > 0 ? YES : NO;
+
     return status;
 }
 
--(BOOL)authCheck:(NSError*__autoreleasing*)error{
-    if(!_authenticated || ![self authenticate:error]){
+- (BOOL)authCheck:(NSError* __autoreleasing*)error
+{
+    if (!_authenticated || ![self authenticate:error]) {
         return NO;
     }
     return YES;
 }
 
 #pragma mark - Observers;
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if([keyPath isEqualToString:@"directoryServer"]||[keyPath isEqualToString:@"directoryDomain"]){
-         [self getServerNode:nil];
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
+{
+    if ([keyPath isEqualToString:@"directoryServer"] || [keyPath isEqualToString:@"directoryDomain"]) {
+        [self getServerNode:nil];
     }
 }
 
 #pragma mark - Setters/Getters
--(void)setDiradmin:(NSString *)diradmin{
+- (void)setDiradmin:(NSString*)diradmin
+{
     _diradmin = diradmin;
 }
 
--(void)setDiradminPassword:(NSString *)diradminPassword{
+- (void)setDiradminPassword:(NSString*)diradminPassword
+{
     _diradminPassword = diradminPassword;
 }
 
--(void)setDirectoryServer:(NSString *)directoryServer{
+- (void)setDirectoryServer:(NSString*)directoryServer
+{
     _directoryServer = directoryServer;
     [self getServerNode:nil];
 }
 
--(void)setDirectoryDomain:(ODMDirectoryDomains)directoryDomain{
+- (void)setDirectoryDomain:(ODMDirectoryDomains)directoryDomain
+{
     _directoryDomain = directoryDomain;
     [self getServerNode:nil];
-
 }
 
--(NSString *)description{
+- (NSString*)description
+{
     NSString* dd = domainDescription(_directoryDomain);
-    return [NSString stringWithFormat:@"ODManager - Server:%@ Domain:%@",_directoryServer,dd];
+    return [NSString stringWithFormat:@"ODManager - Server:%@ Domain:%@", _directoryServer, dd];
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -459,59 +510,66 @@ NSString* kODMPresetRecord;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma mark - ODManagerDelegate
--(void)didRecieveStatusUpdate:(OSStatus)status{
+- (void)didRecieveStatusUpdate:(OSStatus)status
+{
     self.status = status;
-    if(_nodeStatusUpdateHandler){
+    if (_nodeStatusUpdateHandler) {
         _nodeStatusUpdateHandler(status);
     }
 }
 
-
 @end
 
-NSString* domainDescription(int domain){
+NSString* domainDescription(int domain)
+{
     NSString* dd;
-    switch (domain){
-        case kODMProxyDirectoryServer: {
-            dd = @"Proxy Server";
-            break;
-        }case kODMDefaultDomain: {
-            dd = @"Default Domain";
-            break;
-        }case kODMDirectoryServiceDomain: {
-            dd = @"Directory Service Domain";
-            break;
-        }case kODMLocalDomain: {
-            dd = @"Local Domain";
-            break;
-        }default:{
-            dd = @"unknown";
-        }
+    switch (domain) {
+    case kODMProxyDirectoryServer: {
+        dd = @"Proxy Server";
+        break;
+    }
+    case kODMDefaultDomain: {
+        dd = @"Default Domain";
+        break;
+    }
+    case kODMDirectoryServiceDomain: {
+        dd = @"Directory Service Domain";
+        break;
+    }
+    case kODMLocalDomain: {
+        dd = @"Local Domain";
+        break;
+    }
+    default: {
+        dd = @"unknown";
+    }
     }
     return dd;
 }
 
-NSString* nodeStatusDescription(int status){
+NSString* nodeStatusDescription(int status)
+{
     NSString* sd;
-    switch (status){
-        case kODMNodeAuthenticatedLocal: {
-            sd = @"Authenticated Locally";
-            break;
-        }
-        case kODMNodeAuthenticatedProxy: {
-            sd = @"Authenticate over Proxy";
-            break;
-        }case kODMNodeNotAuthenticatedLocal: {
-            sd = @"Unauthenticated Local Connection";
-            break;
-        }case kODMNodeNotAutenticatedProxy: {
-            sd = @"Unauthenticated Proxy Connection";
-            break;
-        }
-        default:{
-            sd = @"Unauthenticated";
-        }
+    switch (status) {
+    case kODMNodeAuthenticatedLocal: {
+        sd = @"Authenticated Locally";
+        break;
+    }
+    case kODMNodeAuthenticatedProxy: {
+        sd = @"Authenticate over Proxy";
+        break;
+    }
+    case kODMNodeNotAuthenticatedLocal: {
+        sd = @"Unauthenticated Local Connection";
+        break;
+    }
+    case kODMNodeNotAutenticatedProxy: {
+        sd = @"Unauthenticated Proxy Connection";
+        break;
+    }
+    default: {
+        sd = @"Unauthenticated";
+    }
     }
     return sd;
 }
-

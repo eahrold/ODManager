@@ -29,113 +29,124 @@
 
 @implementation ODManagerNode
 
--(id)initWithDomain:(int)domain{
+- (id)initWithDomain:(int)domain
+{
     self = [super init];
-    if(self){
+    if (self) {
         _domain = domain;
     }
     return self;
 }
 
--(id)initWithServer:(NSString *)server domain:(int)domain{
+- (id)initWithServer:(NSString*)server domain:(int)domain
+{
     self = [super init];
-    if(self){
+    if (self) {
         _server = server;
         _domain = domain;
     }
     return self;
 }
 
--(ODNode*)getServerNode:(NSString *)user pass:(NSString *)password error:(NSError *__autoreleasing *)error{
-    ODSession *session;
-    ODNode *node;
-    OSStatus status = kODMNodeNotSet;
-    NSError *err;
-    if(!_domain)_domain = kODMDefaultDomain;
-    
-    if(_domain == kODMProxyDirectoryServer){
-        if(!user || !password || !_server){
+- (BOOL)getServerNode:(NSString*)user pass:(NSString*)password error:(NSError* __autoreleasing*)error
+{
+    ODSession* session;
+    NSError* err;
+
+    _status = kODMNodeNotSet;
+    session = [ODSession defaultSession];
+
+    NSArray* arr = [session nodeNamesAndReturnError:&err];
+    NSString* str = [NSString stringWithFormat:@"/LDAPv3/%@", _server];
+    NSPredicate* nodePredicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] %@", str];
+
+    NSArray* car = [arr filteredArrayUsingPredicate:nodePredicate];
+    if (!car.count) {
+        _domain = kODMProxyDirectoryServer;
+    }
+
+    if (_domain == kODMProxyDirectoryServer) {
+        if (!user || !password || !_server) {
             [_delegate didRecieveStatusUpdate:kODMNodeNotAutenticatedProxy];
-            return nil;
+            return NO;
         }
-        NSDictionary *settings = @{ODSessionProxyAddress:_server,
-                                   ODSessionProxyPort:@"0",
-                                   ODSessionProxyUsername:user,
-                                   ODSessionProxyPassword:password
-                                   };
-        
+        NSDictionary* settings = @{ ODSessionProxyAddress : _server,
+                                    ODSessionProxyPort : @"0",
+                                    ODSessionProxyUsername : user,
+                                    ODSessionProxyPassword : password
+        };
+
         session = [ODSession sessionWithOptions:settings error:&err];
-        if(!session){
-            return nil;
+        if (!session) {
+            _status = kODMNodeNotAutenticatedProxy;
+            return NO;
         }
-        node = [ODNode nodeWithSession:session name:@"/LDAPv3/127.0.0.1" error:&err];
-        if(node){
+        _node = [ODNode nodeWithSession:session name:@"/LDAPv3/127.0.0.1" error:&err];
+        if (_node) {
             [_delegate didRecieveStatusUpdate:kODMNodeAuthenticatedProxy];
+            _status = kODMNodeAuthenticatedProxy;
+            return YES;
         }
-        return node;
-    }else{
-        session = [ODSession defaultSession];
+        _status = kODMNodeNotAutenticatedProxy;
+        return NO;
     }
-    
-    if(!session){
+
+    if (!session) {
         [ODManagerError errorWithCode:kODMerrODSessionError error:error];
-        [_delegate didRecieveStatusUpdate:status];
-        return nil;
+        [_delegate didRecieveStatusUpdate:_status];
+        return NO;
     }
-    
+
     NSString* ds;
-    if(_server){
-        if([_server rangeOfString:@"LDAPv3"].location==NSNotFound){
-            ds = [NSString stringWithFormat:@"/LDAPv3/%@",_server];
-        }else{
+    if (_server) {
+        if ([_server rangeOfString:@"LDAPv3"].location == NSNotFound) {
+            ds = [NSString stringWithFormat:@"/LDAPv3/%@", _server];
+        } else {
             ds = _server;
         }
-        node = [ODNode nodeWithSession:session name:ds error:&err];
-    }else{
-        node = [ODNode nodeWithSession:session type:_domain error:&err];
+        _node = [ODNode nodeWithSession:session name:ds error:&err];
+    } else {
+        _node = [ODNode nodeWithSession:session type:_domain error:&err];
     }
-    
-    if(err){
+
+    if (err) {
         [ODManagerError errorWithCode:kODMerrWrongPassword error:error];
-        [_delegate didRecieveStatusUpdate:status];
-        return nil;
-    }else{
-        status = (_domain != kODMProxyDirectoryServer) ? kODMNodeNotAuthenticatedLocal:kODMNodeNotAutenticatedProxy;
+        [_delegate didRecieveStatusUpdate:_status];
+        return NO;
+    } else {
+        _status = (_domain != kODMProxyDirectoryServer) ? kODMNodeNotAuthenticatedLocal : kODMNodeNotAutenticatedProxy;
     }
-    
-    [_delegate didRecieveStatusUpdate:status];
-    return node;
+
+    [_delegate didRecieveStatusUpdate:_status];
+    return YES;
 }
 
-
--(OSStatus)authenticateToNode:(ODNode*)node user:(NSString*)user password:(NSString*)password error:(NSError *__autoreleasing *)error{
+- (OSStatus)authenticateWithUser:(NSString*)user password:(NSString*)password error:(NSError**)error
+{
     BOOL authenticated = NO;
-    OSStatus status = kODMNodeNotSet;
-    if(!node){
-        return status;
+    _status = kODMNodeNotSet;
+    if (!_node) {
+        return _status;
     }
-    
-    if(!user || !password){
-        return kODMProxyDirectoryServer ? kODMNodeNotAutenticatedProxy:kODMNodeNotAuthenticatedLocal;
+
+    if (!user || !password) {
+        return kODMProxyDirectoryServer ? kODMNodeNotAutenticatedProxy : kODMNodeNotAuthenticatedLocal;
     };
-    
-    authenticated = [node setCredentialsWithRecordType:nil
-                                            recordName:user
-                                              password:password
-                                                 error:error];
-    
-    if (_domain == kODMProxyDirectoryServer){
-        status = authenticated ? kODMNodeAuthenticatedProxy:kODMNodeNotAutenticatedProxy;
-        [_delegate didRecieveStatusUpdate:status];
+
+    authenticated = [_node setCredentialsWithRecordType:nil
+                                             recordName:user
+                                               password:password
+                                                  error:error];
+
+    if (_domain == kODMProxyDirectoryServer) {
+        _status = authenticated ? kODMNodeAuthenticatedProxy : kODMNodeNotAutenticatedProxy;
+        [_delegate didRecieveStatusUpdate:_status];
+    } else {
+        _status = authenticated ? kODMNodeAuthenticatedLocal : kODMNodeNotAuthenticatedLocal;
+        [_delegate didRecieveStatusUpdate:_status];
     }
-    else{
-        status = authenticated ? kODMNodeAuthenticatedLocal:kODMNodeNotAuthenticatedLocal;
-        [_delegate didRecieveStatusUpdate:status];
-    }
-    
-    return status;
+
+    return _status;
 }
-
-
 
 @end

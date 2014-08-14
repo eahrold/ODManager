@@ -27,14 +27,17 @@
 #import <OpenDirectory/OpenDirectory.h>
 
 @interface ODManagerNode : NSObject
-@property (weak) id<ODManagerDelegate>delegate;
-@property (copy) NSString *server;
+@property (weak) id<ODManagerDelegate> delegate;
+@property (strong) ODNode* node;
+@property (copy) NSString* server;
 @property int domain;
+@property int status;
 
--(id)initWithDomain:(int)domain ;
--(id)initWithServer:(NSString*)server domain:(int)domain;
+- (id)initWithDomain:(int)domain;
+- (id)initWithServer:(NSString*)server domain:(int)domain;
 
--(ODNode*)getServerNode:(NSString*)user pass:(NSString*)password error:(NSError**)error;
--(OSStatus)authenticateToNode:(ODNode*)node user:(NSString*)user password:(NSString*)password error:(NSError**)error;
+- (BOOL)getServerNode:(NSString*)user pass:(NSString*)password error:(NSError**)error;
+
+- (OSStatus)authenticateWithUser:(NSString*)user password:(NSString*)password error:(NSError**)error;
 
 @end
